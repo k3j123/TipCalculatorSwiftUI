@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct ContentView: View {
-    @ObservedObject var viewModel: ContentViewModel
-    init (viewModel: ContentViewModel) {
+struct TipCalculatorView: View {
+    @ObservedObject var viewModel: TipCalculatorViewModel
+    init (viewModel: TipCalculatorViewModel) {
         self.viewModel = viewModel
     }
     
@@ -17,11 +17,12 @@ struct ContentView: View {
         Form {
             Text("Tip calculator")
                 .font(.title)
+                .fontWeight(.bold)
             Section(header: Text("Enter Your Meal Information"), content: {
                 Stepper(
                     "Guests: \(viewModel.guests.description)",
                     value: $viewModel.guests,
-                    in: 0...5
+                    in: 1...16
                 )
                 CurrencyField(
                     "Enter meal cost",
@@ -34,27 +35,23 @@ struct ContentView: View {
             })
             Section(header: Text("Select Tip Percentage"), content: {
                 Picker("Select", selection: $viewModel.selectedTipIndex) {
-                    ForEach(Range(0...2)) { value in
+                    ForEach(0..<3) { value in
                         Text(viewModel.baseTipPercentages[value].description).tag(value)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
             })
             Section(header: Text("To Pay:"), content: {
-                Text("Tip to Pay \(currencyFormatter.string(from: viewModel.tip ?? 0) ?? "0")")
+                Text("Total Tip to Pay \(currencyFormatter.string(from: viewModel.tip ?? 0) ?? "0")")
                 Text("Tip Per Guest \(currencyFormatter.string(from: viewModel.tipPerGuest ?? 0) ?? "0")")
                 Text("Total to Pay \(currencyFormatter.string(from: viewModel.totalAmount ?? 0) ?? "0")")
             })
         }
     }
-    
-    func signIn() {
-        
-    }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct TipCalculatorView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: ContentViewModel())
+        TipCalculatorView(viewModel: TipCalculatorViewModel())
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-class ContentViewModel: ObservableObject {
+class TipCalculatorViewModel: ObservableObject {
     
     @Published var tip: NSDecimalNumber?
     @Published var tipPerGuest: NSDecimalNumber?
@@ -45,7 +45,7 @@ class ContentViewModel: ObservableObject {
             return
         }
         
-        let tipPercentage = (Double(baseTipPercentages[selectedTipIndex]) / 100 ) * NSDecimalNumber(decimal: amount).doubleValue / Double(guests)
+        let tipPercentage = (Double(baseTipPercentages[selectedTipIndex]) / 100 ) * NSDecimalNumber(decimal: amount).doubleValue
         tip = NSDecimalNumber(value: tipPercentage)
         tipPerGuest = NSDecimalNumber(value: tipPercentage / Double(guests))
         totalAmount = NSDecimalNumber(decimal: amount).adding(tip!)
